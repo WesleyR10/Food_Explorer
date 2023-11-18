@@ -8,8 +8,11 @@ const verifyUserAuthorization = require("../middlewares/verifyUserAuthorization"
 
 const productsRoutes = Router();
 
-productsRoutes.post("/", ensureAuthenticated, verifyUserAuthorization("admin"), productController.create);
 productsRoutes.get("/", ensureAuthenticated, productController.index);
+productsRoutes.post("/", ensureAuthenticated, verifyUserAuthorization("admin"), productController.create);
+productsRoutes.put("/:id", ensureAuthenticated, verifyUserAuthorization("admin"), productController.update);
+productsRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization("admin"), productController.delete);
+
 
 module.exports = productsRoutes;
 
