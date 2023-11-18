@@ -1,7 +1,7 @@
 const knex = require("../database/knex")
 
 class CategoryRepository {
-  async findByCategory(name) {
+  async findByNameCategory(name) {
     const user = await knex("category").where({ name }).first();
 
     return user
@@ -14,6 +14,11 @@ class CategoryRepository {
     })
 
     return { id: categoryId }
+  }
+
+  async findByAllCategory() {
+    const category = await knex("category")
+    return category
   }
 }
 

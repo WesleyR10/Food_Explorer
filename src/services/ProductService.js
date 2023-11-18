@@ -16,6 +16,16 @@ class ProductService {
 
     return productCreated;
   }
+
+  async findProducts() {
+    const products = await this.userRepository.findByAllProducts()
+
+    if (products.length === 0) {
+      throw new AppError("Nenhum produto foi criado.", 401);
+    }
+
+    return products;
+  }
 }
 
 module.exports = ProductService

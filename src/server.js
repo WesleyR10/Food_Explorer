@@ -7,7 +7,6 @@ const routes = require("./routes")
 
 const AppError = require("./utils/AppError")
 const app = express();
-app.use(cors());
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({

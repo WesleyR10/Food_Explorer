@@ -12,6 +12,15 @@ class ProductController {
 
     return res.status(201).json()
   }
+
+  async index(req, res) {
+    const productRepository = new ProductRepository();
+    const productService = new ProductService(productRepository);
+
+    const products = await productService.findProducts()
+
+    return res.status(201).json(products)
+  }
 }
 
 module.exports = ProductController

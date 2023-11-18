@@ -27,15 +27,15 @@ class UserService {
       throw new AppError("Usuário não encontrado")
     }
 
-    const userWithUpdatedEmail = await this.userRepository.checkEmail(email)
+    const userWithUpdatedEmail = await this.userRepository.findByEmail(email)
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
       throw new AppError("Este e-mail já está em uso.")
     }
     const updatedUser = {};
 
-    user.name = name ?? user.name;
-    user.email = email ?? user.email;
+    updatedUser.name = name ?? user.name;
+    updatedUser.email = email ?? user.email;
 
     if (password && !old_password) {
       throw new AppError("Gentileza informar a senha antiga para definir a nova senha")
@@ -53,6 +53,16 @@ class UserService {
 
     const result = await this.userRepository.update(updatedUser, user_id)
     return result
+  }
+
+  async userValidation({ user }) {
+    const checkUserExists = await this.userRepository.findByUser(user)
+
+    if (checkUserExists.length === 0) {
+      throw new AppError("Unauthorized", 401);
+    }
+
+    return checkUserExists;
   }
 }
 

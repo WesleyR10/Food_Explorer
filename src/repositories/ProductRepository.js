@@ -14,7 +14,7 @@ class ProductRepository {
       thumbnailUrl,
       description,
       value,
-      category,
+      category_id: category,
     })
 
     const ingredientsInsert = ingredients.map(name => {
@@ -27,6 +27,11 @@ class ProductRepository {
     await knex("ingredients").insert(ingredientsInsert);
 
     return
+  }
+
+  async findByAllProducts() {
+    const products = await knex("products")
+    return products
   }
 }
 

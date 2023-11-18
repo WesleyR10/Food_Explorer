@@ -3,7 +3,7 @@ const { sign } = require("jsonwebtoken");
 const authConfig = require("../configs/auth");
 const AppError = require("../utils/AppError");
 
-class UserCreateService {
+class SessionService {
   constructor(userRepository) {
     this.userRepository = userRepository;
   }
@@ -34,4 +34,4 @@ class UserCreateService {
   }
 }
 
-module.exports = UserCreateService
+module.exports = SessionService

@@ -2,7 +2,7 @@ const knex = require("../database/knex")
 
 class UserRepository {
   async findByEmail(email) {
-    const user = await knex("users").select("email").where('email', '=', email).first();
+    const user = await knex("users").where({ email }).first();
 
     return user
   }
@@ -22,18 +22,17 @@ class UserRepository {
     return user
   }
 
-  async checkEmail(email) {
-    const user = await knex("users").where('email', '=', [email]).first();
-
-    return user
-  }
-
   async update(user, user_id) {
     const updatedUser = await knex("users").update(user)
       .where("id", "=", user_id);
 
     return updatedUser
   }
-}
 
+  async findByUser(user) {
+    const checkUserExists = await knex("users").where({ id: user.id });
+
+    return checkUserExists
+  }
+}
 module.exports = UserRepository
