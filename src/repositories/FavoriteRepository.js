@@ -20,7 +20,11 @@ class SessionRepository {
     return { id: favoriteId }
   }
 
+  async delete(id) {
+    const deleteFavorite = await knex("favorites").where({ id }).delete();
 
+    return deleteFavorite
+  }
 }
 
 

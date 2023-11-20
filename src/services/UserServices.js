@@ -16,7 +16,7 @@ class UserService {
 
     const userCreated = await this.userRepository.create({ name, email, password: hashedPassword })
 
-    return userCreated;
+    return { id: userCreated.id };
   }
 
   async update({ name, email, password, old_password, user_id }) {

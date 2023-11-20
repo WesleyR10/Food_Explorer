@@ -1,5 +1,5 @@
 const AppError = require("../utils/AppError");
-
+const DiskStorage = require("../providers/DiskStorage")
 class ProductService {
   constructor(userRepository) {
     this.userRepository = userRepository;
@@ -7,12 +7,17 @@ class ProductService {
 
   async execute({ title, thumbnailUrl, description, value, category, ingredients }) {
     const product = await this.userRepository.findByNameProduct(title)
+    const diskStorage = new DiskStorage();
 
     if (product) {
+      await diskStorage.deleteFileTMP(thumbnailUrl);
       throw new AppError("Produto já cadastrado.", 401);
     }
 
-    const productCreated = await this.userRepository.create({ title, thumbnailUrl, description, value, category, ingredients })
+    console.log(product)
+    const filename = await diskStorage.saveFile(thumbnailUrl);
+
+    const productCreated = await this.userRepository.create({ title, thumbnailUrl: filename, description, value, category, ingredients })
 
     return productCreated;
   }
@@ -35,19 +40,29 @@ class ProductService {
 
   async update({ product_id, title, thumbnailUrl, description, value, ingredients }) {
     const product = await this.userRepository.findByIdProduct(product_id)
+    const diskStorage = new DiskStorage();
 
     if (!product) {
       throw new AppError("Produto não encontrado.", 401);
     }
 
+    if (product.thumbnailUrl) {
+      await diskStorage.deleteFile(product.thumbnailUrl)
+    }
+
+    const filename = await diskStorage.saveFile(thumbnailUrl);
+    product.thumbnailUrl = filename
+
     const updatedProduct = {};
 
     updatedProduct.title = title ?? product.title;
-    updatedProduct.thumbnailUrl = thumbnailUrl ?? product.thumbnailUrl;
+    updatedProduct.thumbnailUrl = filename ?? product.thumbnailUrl;
     updatedProduct.description = description ?? product.description;
     updatedProduct.value = value ?? product.value;
     updatedProduct.category = product.category;
     updatedProduct.ingredients = ingredients ?? product.ingredients;
+
+    console.log(updatedProduct.ingredients)
 
     const result = await this.userRepository.update(updatedProduct, product_id)
 

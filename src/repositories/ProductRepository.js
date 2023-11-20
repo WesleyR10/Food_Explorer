@@ -47,7 +47,6 @@ class ProductRepository {
 
   async update(updatedProduct, product_id) {
     const { ingredients: newIngredients, ...otherFields } = updatedProduct;
-
     // Atualiza os campos exceto ingredients
     const updated = await knex("products").where("id", "=", product_id).update(otherFields)
 
@@ -57,7 +56,6 @@ class ProductRepository {
       .select("name");
 
     const existingIngredientNames = existingIngredients.map(ingredient => ingredient.name);
-
     // Encontra os ingredientes a serem removidos (não presentes nos novos ingredientes)
     const ingredientsToRemove = existingIngredientNames.filter(
       name => !newIngredients.includes(name)

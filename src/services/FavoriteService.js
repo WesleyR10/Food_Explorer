@@ -32,6 +32,16 @@ class FavoriteService {
 
     return favorite;
   }
+
+  async deleteFavorite(id) {
+    const favorite = await this.userRepository.delete(id)
+
+    if (!favorite) {
+      throw new AppError("Item não encontrado", 401);
+    }
+
+    return favorite;
+  }
 }
 
 module.exports = FavoriteService

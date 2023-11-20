@@ -24,6 +24,17 @@ class FavoriteController {
 
     return res.status(201).json(favorite)
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const favoriteRepository = new FavoriteRepository();
+    const favoriteService = new FavoriteService(favoriteRepository);
+
+    await favoriteService.deleteFavorite(id)
+
+    return res.status(201).json()
+  }
 }
 
 module.exports = FavoriteController

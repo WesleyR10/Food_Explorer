@@ -3,12 +3,15 @@ const ProductService = require("../services/ProductService")
 
 class ProductController {
   async create(req, res) {
-    const { title, thumbnailUrl, description, value, category, ingredients } = req.body
+    const { title, description, value, category, ingredients } = req.body
+    const thumbnailUrl = req.file.filename;
+
+    const parsedIngredients = JSON.parse(ingredients);
 
     const productRepository = new ProductRepository();
     const productService = new ProductService(productRepository);
 
-    await productService.execute({ title, thumbnailUrl, description, value, category, ingredients })
+    await productService.execute({ title, thumbnailUrl, description, value, category, ingredients: parsedIngredients })
 
     return res.status(201).json()
   }
@@ -34,13 +37,16 @@ class ProductController {
   }
 
   async update(req, res) {
-    const { title, thumbnailUrl, description, value, ingredients } = req.body
+    const { title, description, value, ingredients } = req.body
     const { id: product_id } = req.params;
+    const thumbnailUrl = req.file.filename;
+
+    const parsedIngredients = JSON.parse(ingredients);
 
     const productRepository = new ProductRepository();
     const productService = new ProductService(productRepository);
 
-    await productService.update({ title, thumbnailUrl, description, value, ingredients, product_id })
+    await productService.update({ title, thumbnailUrl, description, value, ingredients: parsedIngredients, product_id })
 
     return res.json()
   }
