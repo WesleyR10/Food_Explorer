@@ -6,8 +6,6 @@ class SessionRepository {
 
     return user
   }
-
-  as
 }
 
 module.exports = SessionRepository
