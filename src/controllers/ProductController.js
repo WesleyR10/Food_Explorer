@@ -50,6 +50,18 @@ class ProductController {
 
     return res.json()
   }
+
+  async ProductTitle(req, res) {
+    const { searchTerm } = req.query
+
+    const productRepository = new ProductRepository();
+    const productService = new ProductService(productRepository);
+
+    const products = await productService.show(searchTerm)
+    console.log(products)
+
+    return res.status(201).json(products)
+  }
 }
 
 module.exports = ProductController

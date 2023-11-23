@@ -68,6 +68,16 @@ class ProductService {
 
     return result
   }
+
+  async show(searchTerm) {
+    const products = await this.userRepository.findByTitleOrIngredientName(searchTerm)
+
+    if (products.length === 0) {
+      throw new AppError("Nenhum produto foi encontrado.", 401);
+    }
+
+    return products;
+  }
 }
 
 module.exports = ProductService

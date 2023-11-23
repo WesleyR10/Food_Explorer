@@ -12,6 +12,7 @@ const upload = multer(uploadConfig.MULTER)
 const productsRoutes = Router();
 
 productsRoutes.get("/", ensureAuthenticated, productController.index);
+productsRoutes.get("/title", ensureAuthenticated, productController.ProductTitle);
 productsRoutes.post("/", ensureAuthenticated, verifyUserAuthorization("admin"), upload.single("thumbnailUrl"), productController.create);
 productsRoutes.put("/:id", ensureAuthenticated, verifyUserAuthorization("admin"), upload.single("thumbnailUrl"), productController.update);
 productsRoutes.delete("/:id", ensureAuthenticated, verifyUserAuthorization("admin"), productController.delete);

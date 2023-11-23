@@ -88,6 +88,16 @@ class ProductRepository {
 
     return updated;
   }
+
+  async findByTitleOrIngredientName(searchTerm) {
+    const products = await knex("products")
+      .leftJoin("ingredients", "products.id", "ingredients.product_id")
+      .where('products.title', 'like', `%${searchTerm}%`)
+      .orWhere('ingredients.name', 'like', `%${searchTerm}%`)
+      .select('products.*', 'ingredients.name as ingredient_name')
+      .distinct('products.id');
+    return products;
+  }
 }
 
 module.exports = ProductRepository 
