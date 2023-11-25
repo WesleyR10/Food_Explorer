@@ -8,6 +8,7 @@ const ensureAuthenticated = require("../middlewares/ensureAuthenticated")
 const favoritesRoutes = Router();
 
 favoritesRoutes.get("/", ensureAuthenticated, favoriteController.index);
+favoritesRoutes.get("/:id", ensureAuthenticated, favoriteController.index);
 favoritesRoutes.post("/:id", ensureAuthenticated, favoriteController.create);
 favoritesRoutes.delete("/:id", ensureAuthenticated, favoriteController.delete)
 

@@ -25,6 +25,19 @@ class ProductController {
     return res.status(201).json(products)
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const productRepository = new ProductRepository();
+    const productService = new ProductService(productRepository);
+
+    const products = await productService.findByIdProducts(id)
+
+    return res.status(201).json(products)
+
+  }
+
+
   async delete(req, res) {
     const { id } = req.params
 

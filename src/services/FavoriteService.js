@@ -24,22 +24,34 @@ class FavoriteService {
   }
 
   async findFavorite(user_id) {
-    const favorite = await this.userRepository.findByFavorite(user_id)
+    try {
+      const favorite = await this.userRepository.findByFavorite(user_id);
 
-    if (favorite.length === 0) {
-      throw new AppError("Você ainda não favoritou nenhum produto", 401);
+      if (favorite.length > 0) {
+        return favorite;
+      } else {
+        return favorite;
+      }
+    } catch (error) {
+      return { message: "Erro ao buscar os favoritos", status: 500 };
+    }
+  }
+
+  async deleteFavorite({ user_id, product_id }) {
+    const favorite = await this.userRepository.delete({ user_id, product_id })
+
+    if (!favorite) {
+      throw new AppError("Item não foi favoritado", 401);
     }
 
     return favorite;
   }
 
-  async deleteFavorite(id) {
-    const favorite = await this.userRepository.delete(id)
-
+  async findFavoriteById(favoriteId) {
+    const favorite = await this.userRepository.findById(favoriteId);
     if (!favorite) {
-      throw new AppError("Item não encontrado", 401);
+      throw new AppError("Favorito não encontrado", 404);
     }
-
     return favorite;
   }
 }

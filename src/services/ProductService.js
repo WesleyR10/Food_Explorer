@@ -32,6 +32,17 @@ class ProductService {
     return products;
   }
 
+  async findByIdProducts(id) {
+    try {
+      const products = await this.userRepository.findByIdProduct(id)
+      if (products) {
+        return products;
+      }
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  }
+
   async deleteProduct(id) {
     const product = await this.userRepository.delete(id)
 

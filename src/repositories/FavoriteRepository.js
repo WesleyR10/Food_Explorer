@@ -1,10 +1,15 @@
 const knex = require("../database/knex")
 
-class SessionRepository {
+class FavoriteRepository {
   async findByFavorite(user_id) {
     const favorite = await knex("favorites").where({ user_id })
 
     return favorite
+  }
+
+  async findById(favoriteId) {
+    const favorite = await knex("favorites").where({ id: favoriteId }).first();
+    return favorite;
   }
 
   async findByAlreadyFavoriteProduct(user_id, product_id) {
@@ -20,12 +25,12 @@ class SessionRepository {
     return { id: favoriteId }
   }
 
-  async delete(id) {
-    const deleteFavorite = await knex("favorites").where({ id }).delete();
+  async delete({ user_id, product_id }) {
+    const deleteFavorite = await knex("favorites").where({ user_id, product_id }).delete();
 
     return deleteFavorite
   }
 }
 
 
-module.exports = SessionRepository
+module.exports = FavoriteRepository

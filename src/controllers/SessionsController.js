@@ -22,7 +22,7 @@ class SessionsController {
       httpOnly: true, // Segurança - cookie so pode ser acessado através de requisição http
       sameSite: "none",
       secure: true,
-      maxAge: 15 * 60 * 1000
+      maxAge: 30 * 60 * 1000
     })
 
     res.status(201).json({ user })
