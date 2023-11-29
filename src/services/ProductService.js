@@ -39,7 +39,7 @@ class ProductService {
         return products;
       }
     } catch (error) {
-      return res.status(404).json({ message: error });
+      throw error;
     }
   }
 
@@ -57,27 +57,34 @@ class ProductService {
       throw new AppError("Produto não encontrado.", 401);
     }
 
-    if (product.thumbnailUrl) {
-      await diskStorage.deleteFile(product.thumbnailUrl)
+    if (thumbnailUrl) {
+      await diskStorage.deleteFile(product.thumbnailUrl);
+      const filename = await diskStorage.saveFile(thumbnailUrl);
+
+      const updatedProduct = {};
+
+      updatedProduct.title = title ?? product.title;
+      updatedProduct.thumbnailUrl = filename
+      updatedProduct.description = description ?? product.description;
+      updatedProduct.value = value ?? product.value;
+      updatedProduct.category = product.category;
+      updatedProduct.ingredients = ingredients ?? product.ingredients;
+
+      const result = await this.userRepository.update(updatedProduct, product_id)
+      return result
+    } else {
+      const updatedProduct = {};
+
+      updatedProduct.title = title ?? product.title;
+      updatedProduct.thumbnailUrl = product.thumbnailUrl;
+      updatedProduct.description = description ?? product.description;
+      updatedProduct.value = value ?? product.value;
+      updatedProduct.category = product.category;
+      updatedProduct.ingredients = ingredients ?? product.ingredients;
+
+      const result = await this.userRepository.update(updatedProduct, product_id)
+      return result
     }
-
-    const filename = await diskStorage.saveFile(thumbnailUrl);
-    product.thumbnailUrl = filename
-
-    const updatedProduct = {};
-
-    updatedProduct.title = title ?? product.title;
-    updatedProduct.thumbnailUrl = filename ?? product.thumbnailUrl;
-    updatedProduct.description = description ?? product.description;
-    updatedProduct.value = value ?? product.value;
-    updatedProduct.category = product.category;
-    updatedProduct.ingredients = ingredients ?? product.ingredients;
-
-    console.log(updatedProduct.ingredients)
-
-    const result = await this.userRepository.update(updatedProduct, product_id)
-
-    return result
   }
 
   async show(searchTerm) {

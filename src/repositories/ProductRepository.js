@@ -40,7 +40,23 @@ class ProductRepository {
   }
 
   async findByIdProduct(product_id) {
-    const product = await knex("products").where("id", "=", product_id).first();
+    const product = await knex("products").where('products.id', '=', product_id)
+      .leftJoin("ingredients", "products.id", "ingredients.product_id")
+      .select('products.*', 'ingredients.name as ingredients')
+      .groupBy('products.id')
+      .first();
+
+    if (!product) {
+      return null;
+    }
+
+    const ingredients = await knex("ingredients")
+      .select('name')
+      .where('product_id', '=', product_id);
+
+    const ingredientNames = ingredients.map(ingredient => ingredient.name);
+
+    product.ingredients = ingredientNames;
 
     return product
   }
@@ -48,7 +64,7 @@ class ProductRepository {
   async update(updatedProduct, product_id) {
     const { ingredients: newIngredients, ...otherFields } = updatedProduct;
     // Atualiza os campos exceto ingredients
-    const updated = await knex("products").where("id", "=", product_id).update(otherFields)
+    const updated = await knex("products").where("id", "=", product_id).update(otherFields);
 
     // Obtém os ingredientes existentes para o produto
     const existingIngredients = await knex("ingredients")

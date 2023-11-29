@@ -3,8 +3,11 @@ const ProductService = require("../services/ProductService")
 
 class ProductController {
   async create(req, res) {
+    console.log("Requisição recebida no backend:", req.body); // Log dos dados recebidos no corpo da requisição
+    console.log("Arquivo recebido no backend:", req.file); // Log do arquivo recebido, se estiver presente
     const { title, description, value, category, ingredients } = req.body
     const thumbnailUrl = req.file.filename;
+    console.log(thumbnailUrl)
 
     const parsedIngredients = JSON.parse(ingredients);
 
@@ -31,10 +34,12 @@ class ProductController {
     const productRepository = new ProductRepository();
     const productService = new ProductService(productRepository);
 
-    const products = await productService.findByIdProducts(id)
-
-    return res.status(201).json(products)
-
+    try {
+      const products = await productService.findByIdProducts(id)
+      return res.status(200).json(products);
+    } catch (error) {
+      return res.status(404).json({ message: error.message });
+    }
   }
 
 
@@ -52,16 +57,34 @@ class ProductController {
   async update(req, res) {
     const { title, description, value, ingredients } = req.body
     const { id: product_id } = req.params;
-    const thumbnailUrl = req.file.filename;
 
-    const parsedIngredients = JSON.parse(ingredients);
+    if (req.file && req.file.filename) {
+      const thumbnailUrl = req.file.filename;
+      const parsedIngredients = JSON.parse(ingredients);
 
-    const productRepository = new ProductRepository();
-    const productService = new ProductService(productRepository);
+      const productRepository = new ProductRepository();
+      const productService = new ProductService(productRepository);
 
-    await productService.update({ title, thumbnailUrl, description, value, ingredients: parsedIngredients, product_id })
+      await productService.update({ title, thumbnailUrl, description, value, ingredients: parsedIngredients, product_id })
 
-    return res.json()
+      return res.json({ message: 'Produto atualizado com nova imagem!' });
+    } else {
+      // Se não há nova imagem, atualize apenas os campos exceto thumbnailUrl
+      const productRepository = new ProductRepository();
+      const productService = new ProductService(productRepository);
+
+      const parsedIngredients = JSON.parse(ingredients);
+
+      await productService.update({
+        title,
+        description,
+        value,
+        ingredients: parsedIngredients,
+        product_id
+      });
+
+      return res.json({ message: 'Produto atualizado sem nova imagem.' });
+    }
   }
 
   async ProductTitle(req, res) {
