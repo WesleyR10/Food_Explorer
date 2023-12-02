@@ -94,7 +94,6 @@ class ProductController {
     const productService = new ProductService(productRepository);
 
     const products = await productService.show(searchTerm)
-    console.log(products)
 
     return res.status(201).json(products)
   }
