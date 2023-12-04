@@ -4,11 +4,15 @@ O Food Explorer é um desafio da trilha explorer do curso da Rockseat, que simul
 
 Funcionalidades CRUD: Capacidade de criar, ler, atualizar e excluir pratos do cardápio. Busca Avançada: Encontre pratos por nome ou ingrediente. Favoritos: Marque seus pratos favoritos para acesso rápido. Frontend & Backend: Ambas as partes estão desenvolvidas e integradas.
 
-🚀 Começando Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
+🚀 Começando
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-Clone o repositório: Backend. https://github.com/WesleyR10/Food_Explorer.git
-
+Clone o repositório:
+Backend. https://github.com/WesleyR10/Food_Explorer.git
 Frontend. https://github.com/WesleyR10/Food_Explorer_-Front-end.git
+
+🛣️ Copia de todas as rotas do projeto, apenas baixar e no insominia importar.
+https://drive.google.com/file/d/1Dnxt7alfnxxdBW3GMwHgsNiTiBKEtwgt/view?usp=drive_link
 
 🔧 Instalação 
 **1°** Instale as dependecias do backend 
