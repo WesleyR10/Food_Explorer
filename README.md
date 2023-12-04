@@ -10,22 +10,32 @@ Clone o repositório: Backend. https://github.com/WesleyR10/Food_Explorer.git
 
 Frontend. https://github.com/WesleyR10/Food_Explorer_-Front-end.git
 
-🔧 Instalação 1° Instale as dependecias do backend npm install
+🔧 Instalação 
+**1°** Instale as dependecias do backend 
+```
+npm install
+```
 
-2° Altere o nome do arquivo .env.example para .env e configure a porta e a chave secreta. Exemplo:
-
+**2°** Altere o nome do arquivo .env.example para .env e configure a porta e a chave secreta. Exemplo:
+```
 AUTH_SECRET=asdf1234
 SERVER_PORT=3000
-3° Inicie o backend npm run dev
+```
+**3°** Inicie o backend ```npm run dev```
 
-4° Instale as dependecias do frontend npm install
+**4°** Instale as dependecias do frontend ```npm install```
 
-5° Na pasta services arquivo api.js alterar o baseURL, para mesma porta que configurou o seu backend Exemplo:
-
+**5°** Na pasta services arquivo api.js alterar o baseURL, para mesma porta que configurou o seu backend 
+Exemplo:
+```
 baseURL: "http://localhost:3000/",
-6° Inicie o frontend npm run dev
+```
+**6°** Inicie o frontend ```npm run dev```
 
-Obs: caso o banco de dados nao esteja criado executar no projeto backend npm run migrate   ✒️ Autor Wesley Ribas Gonçalves
+Obs: caso o banco de dados nao esteja criado executar no projeto backend ``` npm run migrate ```   
+
+✒️ Autor
+ Wesley Ribas Gonçalves
 
 🎁 Expressões de gratidão Se este projeto foi útil para você de alguma forma, considere as seguintes maneiras de expressar sua gratidão:
 
@@ -33,4 +43,5 @@ Compartilhe este projeto com outras pessoas 📢
 Convide um membro da equipe para uma cerveja virtual 🍺
 Um agradecimento especial em seu próximo evento ou reunião 🫂
 Apoie e reconheça publicamente contribuições valiosas 🌟
-E, acima de tudo, obrigado por explorar e usar o Food Explorer! 🙏 ⌨️ com ❤️ por Wesley Ribas 😊
+E, acima de tudo, obrigado por explorar e usar o Food Explorer! 🙏 
+⌨️ com ❤️ por Wesley Ribas 😊
